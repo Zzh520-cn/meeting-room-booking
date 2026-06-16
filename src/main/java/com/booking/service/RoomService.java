@@ -1,9 +1,13 @@
 package com.booking.service;
 
+import com.booking.dao.ReservationDao;
 import com.booking.dao.RoomDao;
+import com.booking.entity.Reservation;
 import com.booking.entity.Room;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会议室业务逻辑层
@@ -11,6 +15,7 @@ import java.util.List;
 public class RoomService {
 
     private final RoomDao roomDao = new RoomDao();
+    private final ReservationDao reservationDao = new ReservationDao();
 
     /**
      * 获取所有会议室
@@ -68,6 +73,19 @@ public class RoomService {
             return null;
         }
         return "更新会议室信息失败";
+    }
+
+    /**
+     * 获取所有可用会议室及其已占用时段映射
+     * @return Map: roomId → 已批准预约列表
+     */
+    public Map<Integer, List<Reservation>> getAvailableRoomsWithSchedule() {
+        Map<Integer, List<Reservation>> scheduleMap = new HashMap<>();
+        List<Room> rooms = roomDao.findAvailable();
+        for (Room room : rooms) {
+            scheduleMap.put(room.getId(), reservationDao.findApprovedByRoomId(room.getId()));
+        }
+        return scheduleMap;
     }
 
     /**

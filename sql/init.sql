@@ -63,12 +63,12 @@ CREATE INDEX idx_reservations_status ON reservations(status);
 -- 测试数据
 -- ============================================
 
--- 管理员账号: admin / 123456
+-- 测试账号: 密码均为 123456（BCrypt 哈希存储）
 INSERT INTO users (username, password, real_name, role, phone, email) VALUES
-('admin',   '123456', '系统管理员', 'admin', '13800000001', 'admin@company.com'),
-('zhangsan','123456', '张三',       'user',  '13800000002', 'zhangsan@company.com'),
-('lisi',    '123456', '李四',       'user',  '13800000003', 'lisi@company.com'),
-('wangwu',  '123456', '王五',       'user',  '13800000004', 'wangwu@company.com');
+('admin',   '$2a$10$LzOuo41rnAW5XVYox2tpgum6eZesO8.ygAfTsyUwu3Qpn3UkBmOgC', '系统管理员', 'admin', '13800000001', 'admin@company.com'),
+('zhangsan','$2a$10$LzOuo41rnAW5XVYox2tpgum6eZesO8.ygAfTsyUwu3Qpn3UkBmOgC', '张三',       'user',  '13800000002', 'zhangsan@company.com'),
+('lisi',    '$2a$10$LzOuo41rnAW5XVYox2tpgum6eZesO8.ygAfTsyUwu3Qpn3UkBmOgC', '李四',       'user',  '13800000003', 'lisi@company.com'),
+('wangwu',  '$2a$10$LzOuo41rnAW5XVYox2tpgum6eZesO8.ygAfTsyUwu3Qpn3UkBmOgC', '王五',       'user',  '13800000004', 'wangwu@company.com');
 
 -- 会议室数据
 INSERT INTO rooms (name, capacity, equipment, location, status) VALUES

@@ -28,6 +28,7 @@ public class LoginFilter implements Filter {
         req.setCharacterEncoding("UTF-8");
 
         String path = req.getRequestURI();
+        String query = req.getQueryString();
         String contextPath = req.getContextPath();
 
         // 放行静态资源
@@ -56,7 +57,8 @@ public class LoginFilter implements Filter {
 
         // 已登录：管理员页面权限检查
         User user = (User) session.getAttribute("user");
-        if (path.contains("/admin") || path.contains("/room?action=manage")) {
+        if (path.contains("/admin")
+                || (path.contains("/room") && query != null && query.contains("action=manage"))) {
             if (!user.isAdmin()) {
                 // 非管理员访问管理页面，跳转到用户首页
                 resp.sendRedirect(contextPath + "/room?action=list");

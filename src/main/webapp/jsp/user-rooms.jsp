@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -51,6 +52,7 @@
 
         <div class="room-grid">
             <c:forEach items="${rooms}" var="room">
+                <c:set var="schedule" value="${scheduleMap[room.id]}" />
                 <div class="room-card">
                     <div class="room-accent"></div>
                     <div class="room-body">
@@ -59,11 +61,31 @@
                             <p><span>位置</span> ${room.location != null ? room.location : '未指定'}</p>
                             <p><span>容量</span> ${room.capacity} 人</p>
                             <p><span>设备</span> ${room.equipment != null ? room.equipment : '无'}</p>
-                            <p>
-                                <span>状态</span>
-                                <span class="badge badge-available">可用</span>
-                            </p>
                         </div>
+
+                        <!-- 已占用时段 -->
+                        <div class="room-schedule">
+                            <c:choose>
+                                <c:when test="${not empty schedule}">
+                                    <div class="schedule-label">已占用时段</div>
+                                    <ul class="schedule-list">
+                                        <c:forEach items="${schedule}" var="r">
+                                            <li>
+                                                <span class="schedule-dot"></span>
+                                                <fmt:formatDate value="${r.startTime}" pattern="MM/dd HH:mm"/>
+                                                &ndash;
+                                                <fmt:formatDate value="${r.endTime}" pattern="HH:mm"/>
+                                                <span class="schedule-title">${r.title}</span>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="schedule-free">全天空闲</div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+
                         <div class="room-action">
                             <a href="${pageContext.request.contextPath}/reservation?action=book&roomId=${room.id}"
                                class="btn btn-primary btn-sm">预约</a>

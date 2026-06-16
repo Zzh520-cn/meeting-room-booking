@@ -1,5 +1,6 @@
 package com.booking.servlet;
 
+import com.booking.entity.Reservation;
 import com.booking.entity.Room;
 import com.booking.entity.User;
 import com.booking.service.RoomService;
@@ -8,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会议室管理 Servlet
@@ -27,10 +29,12 @@ public class RoomServlet extends HttpServlet {
 
         String action = req.getParameter("action");
 
-        // 用户查看会议室列表（默认行为）
+        // 用户查看会议室列表（默认行为）—— 附带每个房间的已占用时段
         if ("list".equals(action) || action == null) {
             List<Room> rooms = roomService.getAvailableRooms();
+            Map<Integer, List<Reservation>> scheduleMap = roomService.getAvailableRoomsWithSchedule();
             req.setAttribute("rooms", rooms);
+            req.setAttribute("scheduleMap", scheduleMap);
             req.getRequestDispatcher("/jsp/user-rooms.jsp").forward(req, resp);
             return;
         }

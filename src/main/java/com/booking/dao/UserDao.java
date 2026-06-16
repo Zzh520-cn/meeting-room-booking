@@ -120,6 +120,22 @@ public class UserDao {
     }
 
     /**
+     * 更新用户密码（用于旧明文密码自动升级为 BCrypt）
+     */
+    public boolean updatePassword(int userId, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newPassword);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * 检查用户名是否已存在
      */
     public boolean existsByUsername(String username) {

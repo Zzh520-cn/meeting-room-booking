@@ -86,6 +86,32 @@ public class ReservationDao {
     }
 
     /**
+     * 查询某房间所有已批准的预约时间段（用于展示空闲时段）
+     */
+    public List<Reservation> findApprovedByRoomId(int roomId) {
+        List<Reservation> list = new ArrayList<>();
+        String sql = "SELECT r.*, rm.name AS room_name, u.real_name AS user_name " +
+                     "FROM reservations r " +
+                     "JOIN rooms rm ON r.room_id = rm.id " +
+                     "JOIN users u ON r.user_id = u.id " +
+                     "WHERE r.room_id = ? AND r.status = 'approved' " +
+                     "AND r.end_time > NOW() " +
+                     "ORDER BY r.start_time ASC";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, roomId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("查询房间预约信息失败", e);
+        }
+        return list;
+    }
+
+    /**
      * 根据 ID 查找单条预约
      */
     public Reservation findById(int id) {
@@ -186,9 +212,9 @@ public class ReservationDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("数据库异常，冲突检测失败", e);
         }
-        return false; // 出错时不阻塞，让上层决定
+        return false;
     }
 
     // ========== 工具方法 ==========

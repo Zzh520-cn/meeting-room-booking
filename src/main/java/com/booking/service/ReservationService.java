@@ -83,10 +83,10 @@ public class ReservationService {
     }
 
     /**
-     * 批准预约
+     * 批准预约（synchronized 防止并发竞态条件）
      * @return 错误消息，null 表示成功
      */
-    public String approve(int reservationId) {
+    public synchronized String approve(int reservationId) {
         Reservation res = reservationDao.findById(reservationId);
         if (res == null) {
             return "预约记录不存在";
