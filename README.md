@@ -111,6 +111,10 @@ private static final String PASSWORD = "123456";    // 改成你的 MySQL 密码
 在 VSCode 终端（快捷键 `Ctrl + `` `）中运行：
 
 ```bash
+# 确认当前在项目根目录（VSCode 打开项目后默认就在这）
+cd meeting-room-booking
+
+# 启动
 mvn tomcat7:run
 ```
 
