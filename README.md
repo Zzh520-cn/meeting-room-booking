@@ -55,6 +55,8 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 
 ## 如何运行（VSCode）
 
+> 💡 **关于终端**：下面的命令是在 VSCode 自带的终端里运行的。打开 VSCode 后按 **`Ctrl + `` `**（Tab 上面那个键）就能弹出终端窗口，不需要额外装 Git Bash。Windows 上终端默认是 PowerShell，完全够用。
+
 ### 1. 准备环境
 
 你需要安装以下软件：
@@ -75,14 +77,19 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 
 ### 2. 初始化数据库
 
-用 MySQL 客户端（Navicat、DataGrip、或命令行）执行 `sql/init.sql`：
+执行项目里的 `sql/init.sql` 脚本。任选一种方式：
 
-**命令行方式**：
+**方式 A — 用 MySQL 客户端（最简单）**：
+打开 Navicat / DataGrip 等工具，直接运行 `sql/init.sql` 文件。
+
+**方式 B — 用 VSCode 终端**：
 ```bash
-mysql -u root -p < sql/init.sql
-```
+# 先登录 MySQL（输入密码后回车）
+mysql -u root -p
 
-**或者**：打开 `sql/init.sql`，复制全部内容到 MySQL 客户端中执行。
+# 然后在 MySQL 里面执行
+source sql/init.sql;
+```
 
 > 脚本会自动创建 `meeting_room_booking` 数据库、三张表（users/rooms/reservations）并插入测试数据。
 
