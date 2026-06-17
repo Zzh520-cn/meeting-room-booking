@@ -2,6 +2,30 @@
 
 软件工程期末大作业 —— 基于 Java Servlet + JSP + JDBC + MySQL 的 Web 应用
 
+## 下载项目
+
+### 方法一：浏览器直接下载（推荐，不需要装任何东西）
+
+1. 打开 https://github.com/Zzh520-cn/meeting-room-booking
+2. 点击绿色 **Code** 按钮 → **Download ZIP**
+3. 解压后拖进 VSCode 即可
+
+### 方法二：用 Git 克隆（装了 Git 的话）
+
+```bash
+git clone https://github.com/Zzh520-cn/meeting-room-booking.git
+```
+
+### 方法三：用 VSCode 自带功能
+
+1. `Ctrl + Shift + P` → 输入 `Git: Clone`
+2. 粘贴仓库地址：`https://github.com/Zzh520-cn/meeting-room-booking.git`
+3. 选一个文件夹保存即可
+
+> ⚠️ 方法三也需要电脑上装了 Git，VSCode 只是调用它。
+
+---
+
 ## 技术栈
 
 | 层级 | 技术 |
