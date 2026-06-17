@@ -29,52 +29,93 @@
 - ✅ 拒绝预约
 - ✅ 查看全部预约记录
 
-## 如何运行
+## 如何运行（VSCode）
 
 ### 1. 准备环境
-- JDK 1.8+
-- MySQL 8.0+
-- Git Bash（装了 Git 就会有）
 
-> Maven 不需要单独装，项目自带了临时版本，配一下环境变量就能用。
+你需要安装以下软件：
+
+| 软件 | 版本要求 | 下载地址 |
+|------|---------|---------|
+| JDK | 1.8+（推荐 JDK 8） | https://adoptium.net |
+| MySQL | 8.0+ | https://dev.mysql.com/downloads |
+| Maven | 3.6+ | https://maven.apache.org/download.cgi |
+
+**VSCode 推荐插件**（在扩展商店搜索安装）：
+- **Extension Pack for Java**（微软官方，包含所有 Java 开发必备功能）
+- **Maven for Java**（让 VSCode 识别 Maven 项目）
+
+> ⚠️ Maven 装好后，需要在终端里能用 `mvn` 命令。Windows 上装完记得把 Maven 的 `bin` 目录加到系统环境变量 `PATH` 里。
+
+---
 
 ### 2. 初始化数据库
-执行 `sql/init.sql` 脚本：
+
+用 MySQL 客户端（Navicat、DataGrip、或命令行）执行 `sql/init.sql`：
+
+**命令行方式**：
 ```bash
 mysql -u root -p < sql/init.sql
 ```
 
-### 3. 修改数据库连接
-编辑 `src/main/java/com/booking/util/DBUtil.java`：
+**或者**：打开 `sql/init.sql`，复制全部内容到 MySQL 客户端中执行。
+
+> 脚本会自动创建 `meeting_room_booking` 数据库、三张表（users/rooms/reservations）并插入测试数据。
+
+---
+
+### 3. 修改数据库连接信息
+
+打开 [src/main/java/com/booking/util/DBUtil.java](src/main/java/com/booking/util/DBUtil.java)，把下面两行改成你自己的 MySQL 用户名和密码：
+
 ```java
-private static final String URL      = "jdbc:mysql://localhost:3306/meeting_room_booking?...";
-private static final String USER     = "root";      // 改成你的数据库用户名
-private static final String PASSWORD = "123456";    // 改成你的数据库密码
+private static final String USER     = "root";      // 改成你的 MySQL 用户名
+private static final String PASSWORD = "123456";    // 改成你的 MySQL 密码
 ```
 
-### 4. 配置 Maven（仅第一次）
-把 Maven 写入 Git Bash 的环境变量，以后每次打开终端就能直接用：
-```bash
-echo 'export PATH="/c/Users/Zzh/.m2/wrapper/dists/apache-maven-3.8.5-bin/5i5jha092a3i37g0paqnfr15e0/apache-maven-3.8.5/bin:$PATH"' >> ~/.bashrc
-```
-> 路径里的那串乱码可能因人而异，如果不对可以去 `C:\Users\你的用户名\.m2\wrapper\dists\` 下面找一下 `apache-maven-*` 的实际目录。
+---
 
-### 5. 启动服务器
+### 4. 启动项目
+
+在 VSCode 终端（快捷键 `Ctrl + `` `）中运行：
+
 ```bash
-cd ~/meeting-room-booking
 mvn tomcat7:run
 ```
-> 一行命令就启动，不需要单独装 Tomcat。看到 `Starting ProtocolHandler ["http-bio-8080"]` 就说明启动成功了。
 
-### 6. 访问系统
-打开浏览器访问：`http://localhost:8080/meeting-room-booking`
+> 🎉 **不需要单独安装 Tomcat！** Maven 插件会自动下载并启动内嵌 Tomcat。
 
-### 测试账号
+看到这行就说明启动成功了：
+```
+[INFO] Starting ProtocolHandler ["http-bio-8080"]
+```
+
+---
+
+### 5. 访问系统
+
+浏览器打开：**http://localhost:8080/meeting-room-booking**
+
+---
+
+### 6. 测试账号
+
 | 角色 | 用户名 | 密码 |
 |------|--------|------|
 | 管理员 | admin | 123456 |
 | 普通用户 | zhangsan | 123456 |
 | 普通用户 | lisi | 123456 |
+
+---
+
+### 常见问题
+
+| 问题 | 解决 |
+|------|------|
+| `mvn` 命令找不到 | Maven 没装或没配环境变量，检查 `PATH` |
+| 数据库连接失败 | 检查 MySQL 是否启动，用户名密码是否正确 |
+| 端口 8080 被占用 | 先关掉占用 8080 的程序，或改 `pom.xml` 中的端口配置 |
+| JDK 版本不对 | 项目需要 JDK 8，检查 `java -version` |
 
 ## 项目结构
 
