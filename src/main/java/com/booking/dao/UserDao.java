@@ -24,9 +24,12 @@ public class UserDao {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapRow(rs);
+                } else {
+                    System.err.println("[UserDao] 用户不存在: " + username);
                 }
             }
         } catch (SQLException e) {
+            System.err.println("[UserDao] ❌ 数据库查询失败！请检查 MySQL 是否启动、用户名密码是否正确");
             e.printStackTrace();
         }
         return null;

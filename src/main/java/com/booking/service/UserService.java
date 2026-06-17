@@ -18,18 +18,23 @@ public class UserService {
     public User login(String username, String password) {
         User user = userDao.findByUsername(username);
         if (user == null) {
+            System.err.println("[UserService] 登录失败：用户 '" + username + "' 不存在（数据库可能未初始化）");
             return null;
         }
 
         PasswordUtil.VerifyResult vr = PasswordUtil.verify(password, user.getPassword());
         if (!vr.matched) {
+            System.err.println("[UserService] 登录失败：用户 '" + username + "' 密码不匹配");
             return null;
         }
+
+        System.out.println("[UserService] ✅ 登录成功: " + username + " (角色: " + user.getRole() + ")");
 
         // 旧明文密码匹配成功 → 自动升级为 BCrypt 哈希
         if (vr.needsUpgrade) {
             String newHash = PasswordUtil.hash(password);
             userDao.updatePassword(user.getId(), newHash);
+            System.out.println("[UserService] 密码已升级为 BCrypt: " + username);
         }
 
         return user;
