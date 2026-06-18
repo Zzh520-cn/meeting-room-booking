@@ -98,14 +98,18 @@ source ./sql/init.sql;
 
 ---
 
-### 3. 修改数据库连接信息
+### 3. 配置数据库连接
 
-打开 [src/main/java/com/booking/util/DBUtil.java](src/main/java/com/booking/util/DBUtil.java)，把下面两行改成你自己的 MySQL 用户名和密码：
+1. 找到 `src/main/resources/db.properties.example`，复制一份，重命名为 **`db.properties`**
+2. 打开 `db.properties`，填上你的 MySQL 用户名和密码：
 
-```java
-private static final String USER     = "root";      // 改成你的 MySQL 用户名
-private static final String PASSWORD = "123456";    // 改成你的 MySQL 密码
+```properties
+db.url=jdbc:mysql://localhost:3306/meeting_room_booking?useSSL=false&...    # 一般不用改
+db.user=root                  # 改成你的 MySQL 用户名
+db.password=你的MySQL密码      # 改成你的 MySQL 密码
 ```
+
+> ⚠️ `db.properties` 包含你的数据库密码，**已加入 .gitignore，不会被提交到 GitHub**。复制的时候注意文件名是 `db.properties` 不是 `db.properties.example`。
 
 ---
 
