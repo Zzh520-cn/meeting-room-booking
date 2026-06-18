@@ -81,17 +81,14 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 
 执行项目里的 `sql/init.sql` 脚本。任选一种方式：
 
-**方式 A — 用 MySQL 客户端（最简单）**：
+**方式 A — 复制粘贴（零门槛，推荐）**：
+1. 在 VSCode 中打开 `sql/init.sql`
+2. `Ctrl + A` 全选 → `Ctrl + C` 复制
+3. 终端里登录 MySQL：`mysql -u root -p`
+4. 粘贴 → 回车，搞定
+
+**方式 B — 用 MySQL 客户端**：
 打开 Navicat / DataGrip 等工具，直接运行 `sql/init.sql` 文件。
-
-**方式 B — 用 VSCode 终端**（确保终端当前在项目根目录，然后）：
-```bash
-# 登录 MySQL（输入密码后回车）
-mysql -u root -p
-
-# 然后在 MySQL 里面执行
-source sql/init.sql;
-```
 
 > 脚本会自动创建 `meeting_room_booking` 数据库、三张表（users/rooms/reservations）并插入测试数据。
 
