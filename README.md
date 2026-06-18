@@ -84,11 +84,14 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 
 **方式 B — 用 VSCode 终端**：
 ```bash
-# 先登录 MySQL（输入密码后回车）
+# 先进入项目目录（重要！否则 source 找不到文件）
+cd meeting-room-booking
+
+# 登录 MySQL（输入密码后回车）
 mysql -u root -p
 
-# 然后在 MySQL 里面执行
-source sql/init.sql;
+# 然后在 MySQL 里面执行（注意前面有个点，表示当前目录）
+source ./sql/init.sql;
 ```
 
 > 脚本会自动创建 `meeting_room_booking` 数据库、三张表（users/rooms/reservations）并插入测试数据。
