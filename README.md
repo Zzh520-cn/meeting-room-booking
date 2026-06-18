@@ -56,6 +56,8 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 ## 如何运行（VSCode）
 
 > 💡 **关于终端**：下面的命令是在 VSCode 自带的终端里运行的。打开 VSCode 后按 **`Ctrl + `` `**（Tab 上面那个键）就能弹出终端窗口，不需要额外装 Git Bash。Windows 上终端默认是 PowerShell，完全够用。
+>
+> ⚠️ **关于目录**：用 VSCode 打开项目文件夹后，终端**默认就在项目根目录**，不需要再 `cd`。如果终端显示的不是项目目录，用 `cd` 加你解压后的实际文件夹名（GitHub ZIP 下载的通常是 `meeting-room-booking-master`）。
 
 ### 1. 准备环境
 
@@ -82,16 +84,13 @@ git clone https://github.com/Zzh520-cn/meeting-room-booking.git
 **方式 A — 用 MySQL 客户端（最简单）**：
 打开 Navicat / DataGrip 等工具，直接运行 `sql/init.sql` 文件。
 
-**方式 B — 用 VSCode 终端**：
+**方式 B — 用 VSCode 终端**（确保终端当前在项目根目录，然后）：
 ```bash
-# 先进入项目目录（重要！否则 source 找不到文件）
-cd meeting-room-booking
-
 # 登录 MySQL（输入密码后回车）
 mysql -u root -p
 
-# 然后在 MySQL 里面执行（注意前面有个点，表示当前目录）
-source ./sql/init.sql;
+# 然后在 MySQL 里面执行
+source sql/init.sql;
 ```
 
 > 脚本会自动创建 `meeting_room_booking` 数据库、三张表（users/rooms/reservations）并插入测试数据。
@@ -118,8 +117,10 @@ db.password=你的MySQL密码      # 改成你的 MySQL 密码
 在 VSCode 终端（快捷键 `Ctrl + `` `）中运行：
 
 ```bash
-# 确认当前在项目根目录（VSCode 打开项目后默认就在这）
-cd meeting-room-booking
+# 确保终端当前在项目根目录（VSCode 打开项目后默认就在这）
+# 如果不在，先 cd 到你的项目文件夹，例如：
+# cd meeting-room-booking
+# 或 cd meeting-room-booking-master（GitHub ZIP 下载的）
 
 # 启动
 mvn tomcat7:run
